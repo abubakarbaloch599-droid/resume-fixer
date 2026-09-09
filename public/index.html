@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Resume Fixer — beat the ATS scan</title>
+<style>
+  :root {
+    --ink: #1C2B3A;
+    --paper: #FAF9F6;
+    --card: #FFFFFF;
+    --gold: #B8862E;
+    --gold-light: #F2E6D0;
+    --border: #DEDAD0;
+    --muted: #6B6A63;
+    --green: #3B6B4F;
+    --green-light: #E7F0EA;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, "Inter", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 2rem 2rem;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .eyebrow { font-size: 13px; color: var(--gold); font-weight: 600; margin: 0 0 8px; }
+  h1 { font-family: Georgia, serif; font-weight: 400; font-size: 36px; margin: 0 0 10px; line-height: 1.15; }
+  header p.sub { font-size: 16px; color: var(--muted); max-width: 560px; line-height: 1.6; margin: 0; }
+  main { max-width: 860px; margin: 0 auto; padding: 2rem; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+  label { font-size: 13px; font-weight: 600; display: block; margin-bottom: 8px; }
+  textarea {
+    width: 100%; height: 220px; padding: 12px;
+    border: 1px solid var(--border); border-radius: 4px;
+    font-size: 14px; font-family: inherit; resize: vertical;
+  }
+  button#fixBtn {
+    margin-top: 24px; background: var(--ink); color: #fff; border: none;
+    padding: 13px 28px; font-size: 15px; font-weight: 500; border-radius: 4px; cursor: pointer;
+  }
+  button#fixBtn:disabled { opacity: 0.6; cursor: default; }
+  #error { color: #A13B3B; font-size: 14px; margin-top: 16px; display: none; }
+  #result { margin-top: 44px; display: none; }
+  .keywords-box {
+    background: var(--gold-light); border: 1px solid var(--gold); border-radius: 6px;
+    padding: 18px 20px; margin-bottom: 24px;
+  }
+  .keywords-box p { font-size: 13px; font-weight: 600; color: var(--gold); margin: 0 0 8px; }
+  .pill {
+    display: inline-block; background: #fff; border: 1px solid var(--gold);
+    border-radius: 100px; padding: 4px 12px; font-size: 13px; margin: 0 8px 8px 0;
+  }
+  #summary { font-size: 15px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+  .resume-box { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 24px; }
+  .resume-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .resume-header p { font-size: 13px; font-weight: 600; color: var(--green); margin: 0; }
+  #copyBtn {
+    background: var(--green-light); color: var(--green); border: none;
+    border-radius: 4px; padding: 6px 14px; font-size: 13px; cursor: pointer;
+  }
+  #resumeText { white-space: pre-wrap; font-size: 14px; line-height: 1.7; margin: 0; font-family: inherit; }
+  #creditsBar {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--green-light); border: 1px solid var(--green);
+    border-radius: 6px; padding: 12px 18px; margin-bottom: 24px; font-size: 14px;
+  }
+  #creditsBar span { color: var(--green); font-weight: 600; }
+  #buyBtn {
+    background: var(--gold); color: #fff; border: none; padding: 8px 16px;
+    border-radius: 4px; font-size: 13px; font-weight: 500; cursor: pointer;
+  }
+  .paywall {
+    background: var(--card); border: 1px solid var(--border); border-radius: 6px;
+    padding: 32px; text-align: center; margin-top: 24px; display: none;
+  }
+  .paywall h2 { font-family: Georgia, serif; font-weight: 400; font-size: 22px; margin: 0 0 8px; }
+  .paywall p { color: var(--muted); font-size: 14px; margin: 0 0 20px; }
+  .paywall button {
+    background: var(--ink); color: #fff; border: none; padding: 13px 28px;
+    font-size: 15px; font-weight: 500; border-radius: 4px; cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<header>
+  <p class="eyebrow">Resume tools</p>
+  <h1>Get past the resume robot.</h1>
+  <p class="sub">Paste your resume and the job posting. We'll find what the applicant tracking system is scanning for, and rewrite your resume so it actually gets seen — without inventing anything that isn't true.</p>
+</header>
+
+<main>
+  <div id="creditsBar">
+    <span id="creditsText">3 free fixes remaining</span>
+    <button id="buyBtn">Buy 8 fixes — $1</button>
+  </div>
+
+  <div class="grid">
+    <div>
+      <label for="resume">Your resume</label>
+      <textarea id="resume" placeholder="Paste your current resume text here..."></textarea>
+    </div>
+    <div>
+      <label for="jobDesc">Job description</label>
+      <textarea id="jobDesc" placeholder="Paste the job posting you're applying to..."></textarea>
+    </div>
+  </div>
+
+  <p id="error"></p>
+  <button id="fixBtn">Fix my resume</button>
+
+  <div class="paywall" id="paywall">
+    <h2>Out of fixes</h2>
+    <p>You've used your 3 free fixes. Buy 8 more for $1 to keep going.</p>
+    <button id="buyBtnPaywall">Buy 8 fixes — $1</button>
+  </div>
+
+  <section id="result">
+    <div class="keywords-box">
+      <p>Keywords added</p>
+      <div id="keywordsList"></div>
+    </div>
+    <p id="summary"></p>
+    <div class="resume-box">
+      <div class="resume-header">
+        <p>Your rewritten resume</p>
+        <button id="copyBtn">Copy text</button>
+      </div>
+      <pre id="resumeText"></pre>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>
+  // ---- CONFIG: fill these in from your Paddle dashboard ----
+  const PADDLE_CLIENT_TOKEN = "live_6b6a3427b921be4118dd916ce47";
+  const PADDLE_PRICE_ID = "pri_01m235c6bkx3myg3qqeaq8s67b";
+  const PADDLE_ENVIRONMENT = "production"; // this token is a LIVE token, not sandbox
+  // -----------------------------------------------------------
+
+  Paddle.Environment.set(PADDLE_ENVIRONMENT);
+  Paddle.Initialize({
+    token: PADDLE_CLIENT_TOKEN,
+    eventCallback: function (event) {
+      if (event.name === "checkout.completed") {
+        addCredits(8);
+        updateCreditsBar();
+        document.getElementById("paywall").style.display = "none";
+      }
+    },
+  });
+
+  function openCheckout() {
+    Paddle.Checkout.open({
+      items: [{ priceId: PADDLE_PRICE_ID, quantity: 1 }],
+    });
+  }
+  document.getElementById("buyBtn").addEventListener("click", openCheckout);
+  document.getElementById("buyBtnPaywall").addEventListener("click", openCheckout);
+
+  // ---- simple credit tracking (stored on this device/browser) ----
+  function getCredits() {
+    if (localStorage.getItem("rf_initialized") === null) {
+      localStorage.setItem("rf_credits", "3"); // 3 free fixes for new visitors
+      localStorage.setItem("rf_initialized", "true");
+    }
+    return parseInt(localStorage.getItem("rf_credits") || "0", 10);
+  }
+  function setCredits(n) {
+    localStorage.setItem("rf_credits", String(n));
+  }
+  function addCredits(n) {
+    setCredits(getCredits() + n);
+  }
+  function updateCreditsBar() {
+    const n = getCredits();
+    document.getElementById("creditsText").textContent =
+      n > 0 ? `${n} fix${n === 1 ? "" : "es"} remaining` : "No fixes remaining";
+  }
+  updateCreditsBar();
+  // ------------------------------------------------------------------
+
+  const fixBtn = document.getElementById("fixBtn");
+  const errorEl = document.getElementById("error");
+  const resultEl = document.getElementById("result");
+  const paywallEl = document.getElementById("paywall");
+
+  fixBtn.addEventListener("click", async () => {
+    const resume = document.getElementById("resume").value.trim();
+    const jobDesc = document.getElementById("jobDesc").value.trim();
+    errorEl.style.display = "none";
+    resultEl.style.display = "none";
+    paywallEl.style.display = "none";
+
+    if (getCredits() <= 0) {
+      paywallEl.style.display = "block";
+      return;
+    }
+
+    if (resume.length < 30 || jobDesc.length < 30) {
+      errorEl.textContent = "Paste your full resume and the job description first (at least a few sentences each).";
+      errorEl.style.display = "block";
+      return;
+    }
+
+    fixBtn.disabled = true;
+    fixBtn.textContent = "Rewriting your resume...";
+
+    try {
+      const res = await fetch("/api/fix-resume", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ resume, jobDesc }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong.");
+
+      document.getElementById("keywordsList").innerHTML = data.missing_keywords
+        .map((k) => `<span class="pill">${k}</span>`)
+        .join("");
+      document.getElementById("summary").textContent = data.summary_of_changes;
+      document.getElementById("resumeText").textContent = data.rewritten_resume;
+      resultEl.style.display = "block";
+      setCredits(getCredits() - 1);
+      updateCreditsBar();
+    } catch (err) {
+      errorEl.textContent = "Something went wrong generating your resume. Try again.";
+      errorEl.style.display = "block";
+    } finally {
+      fixBtn.disabled = false;
+      fixBtn.textContent = "Fix my resume";
+    }
+  });
+
+  document.getElementById("copyBtn").addEventListener("click", () => {
+    const text = document.getElementById("resumeText").textContent;
+    navigator.clipboard.writeText(text);
+  });
+</script>
+</body>
+</html>

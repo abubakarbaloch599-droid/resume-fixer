@@ -40,7 +40,7 @@ Do the following:
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-5",
+        model: "claude-sonnet-5",
         max_tokens: 4000,
         messages: [{ role: "user", content: prompt }],
       }),
@@ -48,6 +48,7 @@ Do the following:
 
     if (!response.ok) {
       const errText = await response.text();
+      console.error("Anthropic API error:", response.status, errText);
       return res.status(500).json({ error: "Claude API error", detail: errText });
     }
 

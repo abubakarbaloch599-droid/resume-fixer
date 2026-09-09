@@ -229,7 +229,7 @@
         body: JSON.stringify({ resume, jobDesc }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Something went wrong.");
+      if (!res.ok) throw new Error(data.detail || data.error || "Something went wrong.");
 
       document.getElementById("keywordsList").innerHTML = data.missing_keywords
         .map((k) => `<span class="pill">${k}</span>`)

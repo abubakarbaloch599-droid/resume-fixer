@@ -145,22 +145,31 @@
   const PADDLE_ENVIRONMENT = "production"; // this token is a LIVE token, not sandbox
   // -----------------------------------------------------------
 
-  Paddle.Environment.set(PADDLE_ENVIRONMENT);
-  Paddle.Initialize({
-    token: PADDLE_CLIENT_TOKEN,
-    eventCallback: function (event) {
-      if (event.name === "checkout.completed") {
-        addCredits(8);
-        updateCreditsBar();
-        document.getElementById("paywall").style.display = "none";
-      }
-    },
-  });
+  try {
+    Paddle.Environment.set(PADDLE_ENVIRONMENT);
+    Paddle.Initialize({
+      token: PADDLE_CLIENT_TOKEN,
+      eventCallback: function (event) {
+        if (event.name === "checkout.completed") {
+          addCredits(8);
+          updateCreditsBar();
+          document.getElementById("paywall").style.display = "none";
+        }
+      },
+    });
+  } catch (e) {
+    console.error("Paddle failed to initialize:", e);
+  }
 
   function openCheckout() {
-    Paddle.Checkout.open({
-      items: [{ priceId: PADDLE_PRICE_ID, quantity: 1 }],
-    });
+    try {
+      Paddle.Checkout.open({
+        items: [{ priceId: PADDLE_PRICE_ID, quantity: 1 }],
+      });
+    } catch (e) {
+      alert("Payment isn't available right now. Please try again shortly.");
+      console.error("Paddle checkout failed:", e);
+    }
   }
   document.getElementById("buyBtn").addEventListener("click", openCheckout);
   document.getElementById("buyBtnPaywall").addEventListener("click", openCheckout);
@@ -231,7 +240,7 @@
       setCredits(getCredits() - 1);
       updateCreditsBar();
     } catch (err) {
-      errorEl.textContent = "Something went wrong generating your resume. Try again.";
+      errorEl.textContent = "Something went wrong: " + (err.message || "please try again.");
       errorEl.style.display = "block";
     } finally {
       fixBtn.disabled = false;

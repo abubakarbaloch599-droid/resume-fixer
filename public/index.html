@@ -32,6 +32,7 @@
   .eyebrow { font-size: 13px; color: var(--gold); font-weight: 600; margin: 0 0 8px; }
   h1 { font-family: Georgia, serif; font-weight: 400; font-size: 36px; margin: 0 0 10px; line-height: 1.15; }
   header p.sub { font-size: 16px; color: var(--muted); max-width: 560px; line-height: 1.6; margin: 0; }
+  header p.hero-clarify { font-size: 15px; color: var(--ink); font-weight: 600; max-width: 560px; line-height: 1.6; margin: 14px 0 0; }
   main { max-width: 860px; margin: 0 auto; padding: 2rem; }
   .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
@@ -86,6 +87,45 @@
     background: var(--ink); color: #fff; border: none; padding: 13px 28px;
     font-size: 15px; font-weight: 500; border-radius: 4px; cursor: pointer;
   }
+  #about {
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+    max-width: 860px;
+    margin: 2rem auto 0;
+  }
+  #about h2 { font-family: Georgia, serif; font-weight: 400; font-size: 26px; margin: 0 0 16px; }
+  #about p { color: var(--muted); font-size: 15px; line-height: 1.7; margin: 0 0 16px; max-width: 640px; }
+  #about .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-top: 28px;
+  }
+  @media (max-width: 700px) { #about .about-grid { grid-template-columns: 1fr; } }
+  #about .about-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 18px 20px;
+  }
+  #about .about-card h3 { font-size: 14px; font-weight: 600; margin: 0 0 8px; color: var(--ink); }
+  #about .about-card p { font-size: 13px; margin: 0; line-height: 1.6; }
+  #pricing {
+    border-top: 1px solid var(--border);
+    padding: 3rem 2rem;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  #pricing h2 { font-family: Georgia, serif; font-weight: 400; font-size: 26px; margin: 0 0 20px; }
+  .pricing-card {
+    background: var(--gold-light); border: 1px solid var(--gold); border-radius: 6px;
+    padding: 24px; max-width: 480px;
+  }
+  .pricing-card .pricing-label { font-size: 18px; font-weight: 700; color: var(--ink); margin: 0 0 8px; }
+  .pricing-card .pricing-sub { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0; }
+  #siteFooter {
+    border-top: 1px solid var(--border);
+    padding: 24px 2rem 40px;
+    max-width: 860px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  #siteFooter p { font-size: 13px; color: var(--muted); margin: 0; }
+  #siteFooter a { color: var(--muted); text-decoration: underline; margin: 0 6px; }
 </style>
 </head>
 <body>
@@ -93,12 +133,13 @@
   <p class="eyebrow">Resume tools</p>
   <h1>Get past the resume robot.</h1>
   <p class="sub">Paste your resume and the job posting. We'll find what the applicant tracking system is scanning for, and rewrite your resume so it actually gets seen — without inventing anything that isn't true.</p>
+  <p class="hero-clarify">Not a tweak. Not a single line. Your entire resume, rewritten and optimized against the job you're applying for.</p>
 </header>
 
 <main>
   <div id="creditsBar">
-    <span id="creditsText">3 free fixes remaining</span>
-    <button id="buyBtn">Buy 8 fixes — $1</button>
+    <span id="creditsText">2 free full resume rewrites remaining</span>
+    <button id="buyBtn">Buy 6 rewrites — $10</button>
   </div>
 
   <div class="grid">
@@ -113,12 +154,12 @@
   </div>
 
   <p id="error"></p>
-  <button id="fixBtn">Fix my resume</button>
+  <button id="fixBtn">Rewrite my resume</button>
 
   <div class="paywall" id="paywall">
-    <h2>Out of fixes</h2>
-    <p>You've used your 3 free fixes. Buy 8 more for $1 to keep going.</p>
-    <button id="buyBtnPaywall">Buy 8 fixes — $1</button>
+    <h2>Out of rewrites</h2>
+    <p>You've used your 2 free full resume rewrites. Buy 6 more for $10 to keep going.</p>
+    <button id="buyBtnPaywall">Buy 6 rewrites — $10</button>
   </div>
 
   <section id="result">
@@ -137,10 +178,58 @@
   </section>
 </main>
 
+<section id="about">
+  <h2>About Resume Fixer</h2>
+  <p>
+    Most resumes are read by an Applicant Tracking System (ATS) before a human ever sees them.
+    These systems scan for specific keywords and phrases from the job posting — and if your resume
+    is missing the exact terms it's looking for, it can get filtered out even if you're qualified.
+  </p>
+  <p>
+    With Resume Fixer, you paste your resume and the job description, and it identifies the important
+    keywords the ATS is scanning for that your resume is missing or underusing. It then rewrites
+    your resume to naturally include them, using stronger action verbs and clean, ATS-friendly
+    formatting — without inventing experience, employers, titles, or numbers that aren't true.
+  </p>
+  <div class="about-grid">
+    <div class="about-card">
+      <h3>1. Paste</h3>
+      <p>Drop in your current resume and the job posting you're applying to.</p>
+    </div>
+    <div class="about-card">
+      <h3>2. Analyze</h3>
+      <p>We find the keywords and phrases the ATS is scanning for that your resume is missing.</p>
+    </div>
+    <div class="about-card">
+      <h3>3. Rewrite</h3>
+      <p>Get a rewritten, ATS-friendly version that keeps every fact truthful.</p>
+    </div>
+  </div>
+  <p style="margin-top: 24px;">
+    Every visitor gets 2 free full resume rewrites. After that, 6 more full resume rewrites are available for $10.
+    Your resume and job description are sent only to generate the rewrite — nothing is stored on our servers.
+  </p>
+</section>
+
+<section id="pricing">
+  <h2>Pricing</h2>
+  <div class="pricing-card">
+    <p class="pricing-label">$10 — 6 Full Resume Rewrites</p>
+    <p class="pricing-sub">One-time payment. No subscription. Each rewrite = your complete resume, restructured and keyword-optimized for that job posting.</p>
+  </div>
+</section>
+
+<footer id="siteFooter">
+  <p>&copy; 2026 Resume Fixer &middot; <a href="/terms">Terms of Service</a> &middot; <a href="/privacy">Privacy Policy</a> &middot; <a href="/refund">Refund Policy</a></p>
+</footer>
+
 <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 <script>
   // ---- CONFIG: fill these in from your Paddle dashboard ----
   const PADDLE_CLIENT_TOKEN = "live_6b6a3427b921be4118dd916ce47";
+  // TODO: this price ID still points at the old $1-for-8 pack. Create a $10-for-6
+  // "full resume rewrites" price in Paddle and paste its ID here before relying on
+  // checkout to sell the new pack — until then this button still sells the old pack.
   const PADDLE_PRICE_ID = "pri_01m235c6bkx3myg3qqeaq8s67b";
   const PADDLE_ENVIRONMENT = "production"; // this token is a LIVE token, not sandbox
   // -----------------------------------------------------------
@@ -151,7 +240,7 @@
       token: PADDLE_CLIENT_TOKEN,
       eventCallback: function (event) {
         if (event.name === "checkout.completed") {
-          addCredits(8);
+          addCredits(6);
           updateCreditsBar();
           document.getElementById("paywall").style.display = "none";
         }
@@ -177,7 +266,7 @@
   // ---- simple credit tracking (stored on this device/browser) ----
   function getCredits() {
     if (localStorage.getItem("rf_initialized") === null) {
-      localStorage.setItem("rf_credits", "3"); // 3 free fixes for new visitors
+      localStorage.setItem("rf_credits", "2"); // 2 free full resume rewrites for new visitors
       localStorage.setItem("rf_initialized", "true");
     }
     return parseInt(localStorage.getItem("rf_credits") || "0", 10);
@@ -191,7 +280,7 @@
   function updateCreditsBar() {
     const n = getCredits();
     document.getElementById("creditsText").textContent =
-      n > 0 ? `${n} fix${n === 1 ? "" : "es"} remaining` : "No fixes remaining";
+      n > 0 ? `${n} full resume rewrite${n === 1 ? "" : "s"} remaining` : "No full resume rewrites remaining";
   }
   updateCreditsBar();
   // ------------------------------------------------------------------
@@ -244,7 +333,7 @@
       errorEl.style.display = "block";
     } finally {
       fixBtn.disabled = false;
-      fixBtn.textContent = "Fix my resume";
+      fixBtn.textContent = "Rewrite my resume";
     }
   });
 
